@@ -2,7 +2,9 @@
   "name": "bigquery-mcp",
   "version": "0.1.0",
   "type": "module",
-  "private": true,
+  "description": "BigQuery MCP Server for Model Context Protocol integration",
+  "keywords": ["bigquery", "mcp", "google-cloud", "sql"],
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "node ./build/index.js"
@@ -18,4 +20,4 @@
     "@types/node": "^20.12.7",
     "typescript": "^5.4.5"
   }
-}
+}

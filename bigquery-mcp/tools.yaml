@@ -1,0 +1,34 @@
+# BigQuery MCP Toolbox configuration
+# Replace or set ${PROJECT_ID} via Railway environment variable.
+# The Toolbox server will read this YAML at startup.
+
+sources:
+  bigquery:
+    kind: bigquery
+    # You can hard-code your project or rely on the PROJECT_ID env var
+    project: ${PROJECT_ID}
+
+# Expose the standard BigQuery tools
+# Docs: https://cloud.google.com/bigquery/docs/pre-built-tools-with-mcp-toolbox
+
+tools:
+  execute_sql:
+    kind: bigquery-execute-sql
+    source: bigquery
+    description: Execute an arbitrary SQL statement against BigQuery.
+  get_dataset_info:
+    kind: bigquery-get-dataset-info
+    source: bigquery
+    description: Retrieve metadata for a BigQuery dataset.
+  get_table_info:
+    kind: bigquery-get-table-info
+    source: bigquery
+    description: Retrieve metadata for a BigQuery table.
+  list_dataset_ids:
+    kind: bigquery-list-dataset-ids
+    source: bigquery
+    description: List all dataset IDs in the project.
+  list_table_ids:
+    kind: bigquery-list-table-ids
+    source: bigquery
+    description: List all table IDs in a dataset.
