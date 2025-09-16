@@ -171,15 +171,25 @@ def initialize_clients_from_env():
         except Exception as e:
             print(f"DEBUG: Failed to initialize BigQuery client: {e}", file=sys.stderr, flush=True)
 
-# Initialize all clients
-initialize_clients_from_env()
+# Initialize clients lazily - don't block startup
+print("DEBUG: Skipping client initialization at startup to avoid timeout", file=sys.stderr, flush=True)
+print("DEBUG: Clients will be initialized on first use", file=sys.stderr, flush=True)
 
-print(f"DEBUG: Total projects initialized: {len(bq_clients)}", file=sys.stderr, flush=True)
-for project_id in bq_clients.keys():
-    print(f"DEBUG: Available project: {project_id}", file=sys.stderr, flush=True)
+# # Initialize all clients
+# initialize_clients_from_env()
+# 
+# print(f"DEBUG: Total projects initialized: {len(bq_clients)}", file=sys.stderr, flush=True)
+# for project_id in bq_clients.keys():
+#     print(f"DEBUG: Available project: {project_id}", file=sys.stderr, flush=True)
 
 def get_client_for_project(project_id: str = None):
     """Get BigQuery client for specific project or default"""
+    # Lazy initialization - initialize clients on first use
+    if not bq_clients:
+        print("DEBUG: Lazy initializing BigQuery clients...", file=sys.stderr, flush=True)
+        initialize_clients_from_env()
+        print(f"DEBUG: Lazy init complete. {len(bq_clients)} clients initialized", file=sys.stderr, flush=True)
+    
     if project_id and project_id in bq_clients:
         return bq_clients[project_id]
     elif bq_clients:
