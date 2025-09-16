@@ -7,9 +7,38 @@ import os
 import json
 import sys
 from typing import Dict, Any, Optional
-from fastmcp import FastMCP
-from google.cloud import bigquery
-from google.oauth2 import service_account
+
+# Debug: Print Python path and version info
+print(f"DEBUG: Python version: {sys.version}", file=sys.stderr, flush=True)
+print(f"DEBUG: Python path: {sys.path}", file=sys.stderr, flush=True)
+
+# Try to import required modules and provide debugging info
+try:
+    from fastmcp import FastMCP
+    print("DEBUG: FastMCP imported successfully", file=sys.stderr, flush=True)
+except ImportError as e:
+    print(f"DEBUG: FastMCP import failed: {e}", file=sys.stderr, flush=True)
+    raise
+
+try:
+    from google.cloud import bigquery
+    print("DEBUG: google.cloud.bigquery imported successfully", file=sys.stderr, flush=True)
+except ImportError as e:
+    print(f"DEBUG: google.cloud.bigquery import failed: {e}", file=sys.stderr, flush=True)
+    # Check if google package exists at all
+    try:
+        import google
+        print(f"DEBUG: google package found at: {google.__file__}", file=sys.stderr, flush=True)
+    except ImportError:
+        print("DEBUG: No google package found at all", file=sys.stderr, flush=True)
+    raise
+
+try:
+    from google.oauth2 import service_account
+    print("DEBUG: google.oauth2.service_account imported successfully", file=sys.stderr, flush=True)
+except ImportError as e:
+    print(f"DEBUG: google.oauth2.service_account import failed: {e}", file=sys.stderr, flush=True)
+    raise
 
 # Initialize FastMCP server
 mcp = FastMCP("BigQuery MCP Server")
